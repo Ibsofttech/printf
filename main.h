@@ -1,55 +1,53 @@
 #ifndef MAIN_H
 #define MAIN_H
-
-#include <stdio.h>
 #include <stdarg.h>
-#include <stdlib.h>
-#include <limit.h>
+#include <stdio.h>
 #include <unistd.h>
+#include <stdlib.h>
 
 #define UNUSED(x) (void)(x)
 #define BUFF_SIZE 1024
 
-/* MY_FLAGS */
+/* FLAGS */
 #define F_MINUS 1
 #define F_PLUS 2
 #define F_ZERO 4
 #define F_HASH 8
 #define F_SPACE 16
 
-/* SIZES_input */
+/* SIZES */
 #define S_LONG 2
 #define S_SHORT 1
 
 /**
- * struct ptf - flag / flag object
+ * struct pts - printf project structure
  *
- * @ch: flag
- * @ptr: var function
+ * @pts: The format.
+ * @ptr: The function associated.
  */
-
-struct ptf
+struct pts
 {
-	char ch;
-	int (ptr)(va_list, char[], int, int, int, int);
+	char pts;
+	int (*ptr)(va_list, char[], int, int, int, int);
 };
 
+
 /**
- * typedef struct ptf ptf_t - flag / flag object
+ * typedef struct pts pts_t - Struct op
  *
- * @ch: flag
- * @ptr: var function
+ * @pts: The format.
+ * @ptr_t: The function associated.
  */
+typedef struct fmt pts_t;
 
-typedef struct ptf ptf_t
-
+void print_buffer(char buff[], int *buff_ind);
 int _printf(const char *format, ...);
-int handle_print(const char *ptf, int *i,
+int handle_print(const char *pts, int *i,
 va_list list, char buffer[], int flags, int width, int precision, int size);
 
-/************* FUNCTIONS ***********/
+/****************** FUNCTIONS ******************/
 
-/* Funtions to print characters and strings */
+/* Funtions to print chars and strings */
 int print_char(va_list types, char buffer[],
 	int flags, int width, int precision, int size);
 int print_string(va_list types, char buffer[],
@@ -77,6 +75,7 @@ char buffer[], int flags, char flag_ch, int width, int precision, int size);
 /* Function to print non printable characters */
 int print_non_printable(va_list types, char buffer[],
 	int flags, int width, int precision, int size);
+
 /* Funcion to print memory address */
 int print_pointer(va_list types, char buffer[],
 	int flags, int width, int precision, int size);

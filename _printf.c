@@ -1,18 +1,17 @@
 #include "main.h"
 
-void print_buffer(char buffer[], int *buff_ind);
 
 /**
- * _printf - Printf alx project
- * @format: formatted output.
- * Return: Printed chars and strings.
+ * _printf - Printf function for alx project
+ * @format: default format.
+ * Return: Printed chars.
  */
 int _printf(const char *format, ...)
 {
-	int i, my_print = 0, my_chars = 0;
-	int flg, width, precn, size, buff_ind = 0;
+	int i, calc = 0, calc_chars = 0;
+	int flags, width, precision, size, buff_ind = 0;
 	va_list my_list;
-	char buffer[BUFF_SIZE];
+	char buff[BUFF_SIZE];
 
 	if (format == NULL)
 		return (-1);
@@ -23,42 +22,44 @@ int _printf(const char *format, ...)
 	{
 		if (format[i] != '%')
 		{
-			buffer[buff_ind++] = format[i];
+			buff[buff_ind++] = format[i];
 			if (buff_ind == BUFF_SIZE)
-				print_buffer(buffer, &buff_ind);
+				print_buffer(buff, &buff_ind);
 			/* write(1, &format[i], 1);*/
-			printed_chars++;
+			calc_chars++;
 		}
 		else
 		{
-			print_buffer(buffer, &buff_ind);
-			flg = get_flags(format, &i);
-			width = get_width(format, &i, my_list);
-			precn = get_precision(format, &i, my_list);
+			print_buffer(buff, &buff_ind);
+			flags = get_flags(format, &i);
+			width = get_width(format, &i,my_ list);
+			precision = get_precision(format, &i,my_ list);
 			size = get_size(format, &i);
 			++i;
-			my_print = handle_print(format, &i, my_list, buffer,
+			calc = handle_print(format, &i,my_ list, buff,
 				flags, width, precision, size);
 			if (printed == -1)
 				return (-1);
-			my_chars += printed;
+			calc_chars += calc;
 		}
 	}
 
-	print_buffer(buffer, &buff_ind);
+	print_buffer(buff, &buff_ind);
 
-	va_end(my_list);
+	va_end(list);
 
-	return (my_chars);
+	return (calc_chars);
 }
 
-
-
-
-void print_buffer(char buffer[], int *buff_ind)
+/**
+ * print_buffer - Prints the contents of the buffer 
+ * @buffer: Array of characters
+ * @buff_ind: Index at which to add next chars, represents the length.
+ */
+void print_buffer(char buff[], int *buff_ind)
 {
 	if (*buff_ind > 0)
-		write(1, &buffer[0], *buff_ind);
+		write(1, &buff[0], *buff_ind);
 
 	*buff_ind = 0;
 }
