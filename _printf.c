@@ -32,11 +32,11 @@ int _printf(const char *format, ...)
 		{
 			print_buffer(buff, &buff_ind);
 			flags = get_flags(format, &i);
-			width = get_width(format, &i,my_ list);
-			precision = get_precision(format, &i,my_ list);
+			width = get_width(format, &i, my_list);
+			precision = get_precision(format, &i, my_ list);
 			size = get_size(format, &i);
 			++i;
-			calc = handle_print(format, &i,my_ list, buff,
+			calc = handle_print(format, &i, my_list, buff,
 				flags, width, precision, size);
 			if (printed == -1)
 				return (-1);
@@ -52,8 +52,8 @@ int _printf(const char *format, ...)
 }
 
 /**
- * print_buffer - Prints the contents of the buffer 
- * @buffer: Array of characters
+ * print_buffer - Prints the contents of the buffer
+ * @buff: Array of characters
  * @buff_ind: Index at which to add next chars, represents the length.
  */
 void print_buffer(char buff[], int *buff_ind)
