@@ -1,33 +1,65 @@
 #include "main.h"
 
+void print_buffer(char buffer[], int *buff_ind);
+
 /**
- * print_ch - Print a  characters (%c)
- * @my_list: Store the a list of characters
- * Return: num of parameters printed
+ * _printf - Printf alx project
+ * @format: formatted output.
+ * Return: Printed chars and strings.
  */
-int print_ch(va_list my_list)
+int _printf(const char *format, ...)
 {
-	int c = va_arg(my_list, int);
+	int i, my_print = 0, my_chars = 0;
+	int flg, width, precn, size, buff_ind = 0;
+	va_list my_list;
+	char buffer[BUFF_SIZE];
 
-	return (_putchar(c));
+	if (format == NULL)
+		return (-1);
+
+	va_start(my_list, format);
+
+	for (i = 0; format && format[i] != '\0'; i++)
+	{
+		if (format[i] != '%')
+		{
+			buffer[buff_ind++] = format[i];
+			if (buff_ind == BUFF_SIZE)
+				print_buffer(buffer, &buff_ind);
+			/* write(1, &format[i], 1);*/
+			printed_chars++;
+		}
+		else
+		{
+			print_buffer(buffer, &buff_ind);
+			flg = get_flags(format, &i);
+			width = get_width(format, &i, my_list);
+			precn = get_precision(format, &i, my_list);
+			size = get_size(format, &i);
+			++i;
+			my_print = handle_print(format, &i, my_list, buffer,
+				flags, width, precision, size);
+			if (printed == -1)
+				return (-1);
+			my_chars += printed;
+		}
+	}
+
+	print_buffer(buffer, &buff_ind);
+
+	va_end(my_list);
+
+	return (my_chars);
 }
 
-/**
-* print_str - print a string (%s)
-* @ar_list: Store the a list of characters
-* Return: num of parameters printed
-*/
-int print_str(va_list my_list)
+
+
+
+void print_buffer(char buffer[], int *buff_ind)
 {
-	int i, count = 0;
-	char *str;
+	if (*buff_ind > 0)
+		write(1, &buffer[0], *buff_ind);
 
-	str = va_arg(my_list, char *);
-	if (str == NULL)
-		str = "(error)"
-
-	for (i = 0; str[i]; i++)
-		count += _putchar(str[i]);
-
-	return (count);
+	*buff_ind = 0;
 }
+
