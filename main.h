@@ -40,6 +40,7 @@ struct ptf
  * @ch: flag
  * @ptr: var function
  */
+
 typedef struct ptf ptf_t
 
 int _printf(const char *format, ...);
