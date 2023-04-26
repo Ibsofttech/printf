@@ -1,66 +1,47 @@
 #include "main.h"
-
-
 /**
- * _printf - Printf function for alx project
- * @format: default format.
- * Return: Printed chars.
- */
+* _printf - this is the  main function to print on the console
+* @format: array to print and check the type of input
+* Return: to count the number of characters printed
+**/
 int _printf(const char *format, ...)
 {
-	int i, calc = 0, calc_chars = 0;
-	int flags, width, precision, size, buff_ind = 0;
-	va_list my_list;
-	char buff[BUFF_SIZE];
+	int count = -1;
 
-	if (format == NULL)
-		return (-1);
-
-	va_start(my_list, format);
-
-	for (i = 0; format && format[i] != '\0'; i++)
+	if (format != NULL)
 	{
-		if (format[i] != '%')
+		int i;
+		va_list my_list;
+		int (*op)(va_list);
+
+		va_start(my_list, format);
+
+		if (format[0] == '%' && format[1] == '\0')
+			return (-1);
+
+		count = 0;
+
+		for (i = 0; format[i] != '\0'; i++)
 		{
-			buff[buff_ind++] = format[i];
-			if (buff_ind == BUFF_SIZE)
-				print_buffer(buff, &buff_ind);
-			/* write(1, &format[i], 1);*/
-			calc_chars++;
+			if (format[i] == '%')
+			{
+				if (format[i + 1] == '%')
+				{
+					count += _putchar(format[i]);
+					i++;
+				}
+				else if (format[i + 1] != '\0')
+				{
+					op = get_func(format[i + 1]);
+					count += (op ? op(my_list) : _putchar(format[i]) + _putchar(format[i + 1]));
+					i++;
+				}
+			}
+			else
+				count += _putchar(format[i]);
 		}
-		else
-		{
-			print_buffer(buff, &buff_ind);
-			flags = get_flags(format, &i);
-			width = get_width(format, &i, my_list);
-			precision = get_precision(format, &i, my_ list);
-			size = get_size(format, &i);
-			++i;
-			calc = handle_print(format, &i, my_list, buff,
-				flags, width, precision, size);
-			if (printed == -1)
-				return (-1);
-			calc_chars += calc;
-		}
+		va_end(my_list);
 	}
 
-	print_buffer(buff, &buff_ind);
-
-	va_end(list);
-
-	return (calc_chars);
+	return (count);
 }
-
-/**
- * print_buffer - Prints the contents of the buffer
- * @buff: Array of characters
- * @buff_ind: Index at which to add next chars, represents the length.
- */
-void print_buffer(char buff[], int *buff_ind)
-{
-	if (*buff_ind > 0)
-		write(1, &buff[0], *buff_ind);
-
-	*buff_ind = 0;
-}
-
