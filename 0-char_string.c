@@ -14,7 +14,7 @@ int print_c(va_list my_list)
 
 /**
 * print_s - for printing strings (%s)
-* @ar_list: Store the a list of string
+* @my_list: Store the a list of string
 * Return: num of parameters printed on the console
 */
 int print_s(va_list my_list)
