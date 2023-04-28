@@ -1,8 +1,9 @@
+
 #include "main.h"
 /**
-* _printf - this is the  main function to print on the console
-* @format: array to print and check the type of input
-* Return: to count the number of characters printed
+* _printf - main function. to omit percentege and null character
+* @format: pointer to a string
+* Return: the number of character we input
 **/
 int _printf(const char *format, ...)
 {
